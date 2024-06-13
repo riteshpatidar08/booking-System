@@ -16,9 +16,7 @@ const user = await User.create(req.body)
     })
 
   } catch (error) {
-   res.status(400).json({
-    error : error.message
-   })
+   next(error)
   }
 };
 
@@ -26,8 +24,7 @@ exports.login = async(req,res,next) => {
   try {
      const {email , password} = req.body 
      const user = await User.find({email}) ;
-console.log(user)
-console.log(user[0].password)
+
 //check if user exist
      if(!user){
         const error = new Error('user is not registered , Please login');
@@ -36,16 +33,17 @@ console.log(user[0].password)
      }
 
      const MatchPassword = await bcrypt.compare(password, user[0].password) ;
-console.log(MatchPassword)
+
      if(!MatchPassword){
        const error = new Error('Password did not matched');
         error.statusCode = 400;
         throw error
      }
+   console.log(user[0]._id , user[0].role)
 
      //send the token to the frontend
-     const token = jwt.sign({id:user._id , role : user.role}, 'this-is-my-secret' , {expiresIn : '30d'})
-    console.log(token)
+     const token = jwt.sign({id : user[0]._id ,role : user[0].role}, 'this-is-my-secret' , {expiresIn : '30d'})
+    
    res.status(200).json({
       message : 'success' ,
       token
@@ -53,5 +51,26 @@ console.log(MatchPassword)
 
   } catch (error) {
     next(error)
+  }
+}
+
+
+exports.getUsers = async(req,res,next)=>{
+  try {
+    const users = await User.find({ role: { $ne: 'admin' } })
+   
+
+   if(!users){
+       const error = new Error('Users not found');
+       error.statusCode = 404 ;
+       throw error
+   }
+   res.status(200).json({
+       length : users.length ,
+       message : 'success' ,
+       users
+   })
+  } catch (error) {
+     next(error)
   }
 }
