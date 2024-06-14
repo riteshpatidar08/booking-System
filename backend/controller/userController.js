@@ -22,9 +22,10 @@ const user = await User.create(req.body)
 
 exports.login = async(req,res,next) => {
   try {
+    console.log(req.body)
      const {email , password} = req.body 
      const user = await User.find({email}) ;
-
+console.log(user)
 //check if user exist
      if(!user){
         const error = new Error('user is not registered , Please login');
