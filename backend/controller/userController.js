@@ -43,7 +43,7 @@ console.log(user)
    console.log(user[0]._id , user[0].role)
 
      //send the token to the frontend
-     const token = jwt.sign({id : user[0]._id ,role : user[0].role}, 'this-is-my-secret' , {expiresIn : '30d'})
+     const token = jwt.sign({id : user[0]._id ,role : user[0].role , name : user[0].name }, 'this-is-my-secret' , {expiresIn : '30d'})
     
    res.status(200).json({
       message : 'success' ,

@@ -1,17 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import {useDispatch , useSelector} from 'react-redux'
 import { login } from './redux/slices/LoginSlice';
+import { useNavigate } from 'react-router-dom';
+import { CSpinner } from '@coreui/react';
+
+
 const Login = () => {
-    const dispatch = useDispatch()
-    
+
+  const {role , token ,loading} = useSelector((state)=> state.login)
+
+
+  console.log(role,token)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
+
+  useEffect(() => {
+   
+    if (role === 'admin') {
+      navigate('/dashboard');
+    } 
+  }, [role]);
+
+
   const [formData, setFormData] = useState({
-    email : ' ',
+    email: ' ',
     password: '',
   });
+
   console.log(formData);
+
   const handleChange = (e) => {
-   
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -20,8 +40,8 @@ const Login = () => {
   };
 
   const handleSubmit = (e) => {
-     e.preventDefault();
-dispatch(login(formData))
+    e.preventDefault();
+    dispatch(login(formData));
   };
 
   return (
@@ -41,7 +61,7 @@ dispatch(login(formData))
           name="password"
           value={formData.password}
         />
-        <button type="submit">Login</button>
+        <button type="submit">{loading ? <CSpinner color="primary" /> : 'login'}</button>
       </form>
     </div>
   );
