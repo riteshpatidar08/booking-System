@@ -42,6 +42,7 @@ const loginSlice = createSlice({
         state.loading = true;
       })
       .addCase(login.fulfilled, (state, action) => {
+        console.log(action.payload)
         const data = action.payload;
         const token = data.data.token;
         console.log(token);

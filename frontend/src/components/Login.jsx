@@ -20,7 +20,9 @@ const Login = () => {
    
     if (role === 'admin') {
       navigate('/dashboard');
-    } 
+    } else if(role === 'user'){
+      navigate('/')
+    }
   }, [role]);
 
 
@@ -45,13 +47,15 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="h-screen  flex justify-center p-6 shadow-lg flex-col items-center">
+      <h1>Login</h1>
+      <form className="flex gap-2 flex-col" onSubmit={handleSubmit}>
         <label htmlFor="email">Email</label>
         <input
           onChange={handleChange}
           type="email"
           name="email"
+          className="border border-sky-500 w-64 h-10 focus:ring-1 ring-blue-500 p-2 rounded-md"
           value={formData.email}
         />
         <label htmlFor="password">Password</label>
@@ -59,9 +63,12 @@ const Login = () => {
           type="password"
           onChange={handleChange}
           name="password"
+          className="border border-sky-500 w-64 h-10 focus:ring-1 ring-blue-500 p-2 rounded-md"
           value={formData.password}
         />
-        <button type="submit">{loading ? <CSpinner color="primary" /> : 'login'}</button>
+        <button className="px-8 py-2 rounded-md bg-sky-500" type="submit">
+          {loading ? <CSpinner color="primary" /> : 'Login'}
+        </button>
       </form>
     </div>
   );

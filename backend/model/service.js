@@ -9,7 +9,7 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     
   },
-  price: {
+price: {
     type: Number,
   },
 
