@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchService, createService, deleteService } from '../redux/slices/servicesSlice';
+import { fetchService, createService, deleteService ,updateService } from '../redux/slices/servicesSlice';
 import { FiEdit2 } from "react-icons/fi";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import Typography from '@mui/material/Typography';
@@ -13,6 +13,7 @@ function Services() {
   const { services } = useSelector((state) => state.service);
   const [isEdit, setIsEdit] = useState(false);
   const { handleSubmit, register, setValue, reset } = useForm();
+const [id , setID] = useState('')
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -27,19 +28,35 @@ function Services() {
     dispatch(fetchService());
   }, [dispatch]);
 
-  const handleEdit = (data) => {
-    setIsEdit(true);
-    setValue('name', data.name);
-    setValue('duration', data.duration);
-    setValue('price', data.price);
-    setValue('description', data.description);
-    handleOpen();
-  };
 
+  const handleEdit = (data) => {
+    setValue('name' , data.name)
+    setValue('duration', data.duration)
+    setValue('price', data.price) 
+    setValue('description', data.description)
+    setID(data._id)
+    handleOpen()
+    setIsEdit(true)
+ 
+  };
+console.log(id)
   const handleDelete = async (id) => {
     await dispatch(deleteService(id));
     dispatch(fetchService());
   };
+
+
+    const onSubmit = async (data) => {
+console.log(data)
+if(isEdit){
+ await dispatch(updateService({id,data}))
+}else{
+ await dispatch(createService(data))
+}
+handleClose();
+dispatch(fetchService())
+  };
+
 
   const style = {
     position: 'absolute',
@@ -70,11 +87,6 @@ function Services() {
     },
   ];
 
-  const onSubmit = async (data) => {
-    await dispatch(createService(data));
-    handleClose();
-    dispatch(fetchService());
-  };
 
   return (
     <div className='m-8'>
@@ -109,7 +121,7 @@ function Services() {
                 <input
                   type="text"
                   {...register("name")}
-                  className='mt-1 block h-10 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+                  className='mt-1 p-2 block h-10 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
                 />
               </div>
               <div>
@@ -117,7 +129,7 @@ function Services() {
                 <input
                   type="text"
                   {...register("duration")}
-                  className='mt-1 block h-10 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+                  className='mt-1 p-2 block h-10 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
                 />
               </div>
               <div>
@@ -125,7 +137,7 @@ function Services() {
                 <input
                   type="number"
                   {...register("price")}
-                  className='mt-1 block h-10 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+                  className='mt-1 p-2 block h-10 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
                 />
               </div>
               <div>
@@ -133,13 +145,13 @@ function Services() {
                 <input
                   type="text"
                   {...register("description")}
-                  className='mt-1 block w-full h-10 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+                  className='mt-1 p-2 block w-full h-10 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
                 />
               </div>
               <div className='flex justify-end'>
                 <button
                   type='submit'
-                  className='inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                  className='inline-flex p-2 justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                 >
                   {isEdit ? "Update" : "Create"}
                 </button>

@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 const initialState = {
   services: [],
   count: 0,
+
   error: null,
   loading: false,
 };
@@ -53,6 +54,20 @@ export const deleteService = createAsyncThunk(
   }
 )
 
+export const updateService = createAsyncThunk('/updateService', async({id,data} , {rejectWithValue})=>{
+  console.log(id,data)
+
+  try{
+    const res = await axios.put(`${import.meta.env.VITE_API_URL}/update_service/${id}` ,data , {
+  headers : {
+    Authorization : `Bearer ${localStorage.getItem('token')}`
+  }}) 
+
+  }catch(error){
+rejectWithValue(error)
+  }
+})
+
 const serviceSlice = createSlice({
   name: 'service',
   initialState,
@@ -81,6 +96,13 @@ console.log(action.payload)
        toast.error(
         "failed to create new service"
        )
+      }).addCase(updateService.pending, (state)=>{
+        state.loading = true
+      }).addCase(updateService.fulfilled , (state)=>{
+        state.loading = false ;
+        toast.success('Service Updated Successfull')
+      }).addCase(updateService.rejected , (state,action)=>{
+        toast.error(action.payload)
       })
   },
 });

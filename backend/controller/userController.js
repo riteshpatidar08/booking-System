@@ -58,7 +58,7 @@ console.log(user)
 
 exports.getUsers = async(req,res,next)=>{
   try {
-    const users = await User.find({ role: { $ne: 'admin' } })
+    const users = await User.find()
    
 
    if(!users){
@@ -73,5 +73,25 @@ exports.getUsers = async(req,res,next)=>{
    })
   } catch (error) {
      next(error)
+  }
+}
+
+exports.deactivateUser = async(req,res,next) => {
+  try{
+    const {id} = req.params ;
+    const user = await User.findById(id) ;
+    console.log(user)
+     if(!user){
+       const error = new Error('Users not found');
+       error.statusCode = 404 ;
+       throw error
+   }
+  user.isActive = false ;
+  console.log(user)
+res.status(200).json({
+  user
+})
+  }catch(error){
+
   }
 }

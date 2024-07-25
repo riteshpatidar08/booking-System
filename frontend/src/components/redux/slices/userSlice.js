@@ -12,8 +12,9 @@ const initialState = {
 
 const fetchUsers = createAsyncThunk('/fetechusers' , async(_ ,{rejectWithValue})=>{
     const token = localStorage.getItem('token') ;
-    const data = axios.get('' , {
-        Authorization : `Bearer ${token}`
-    })
+    const data = axios.get(`${import.meta.env.VITE_API_URL}/allusers` ,  {
+  headers : {
+    Authorization : `Bearer ${localStorage.getItem('token')}`
+  }})
     return data ;
 })
