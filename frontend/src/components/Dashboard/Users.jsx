@@ -2,6 +2,7 @@ import React , {useEffect} from 'react'
 import {useSelector , useDispatch} from 'react-redux'
 import { DataGrid } from '@mui/x-data-grid';
 import { fetchUsers , DeactivateUser , activateUser } from '../redux/slices/userSlice';
+import './Datagrid.css'
 function Users() {
     const {users} = useSelector((state)=> state.users)
 const dispatch = useDispatch()

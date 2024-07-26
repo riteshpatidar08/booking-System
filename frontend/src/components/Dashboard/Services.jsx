@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import { useForm } from "react-hook-form";
-
+import './Datagrid.css'
 function Services() {
   const { services } = useSelector((state) => state.service);
   const [isEdit, setIsEdit] = useState(false);
