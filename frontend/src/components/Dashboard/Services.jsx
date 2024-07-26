@@ -90,8 +90,12 @@ dispatch(fetchService())
 
   return (
     <div className='m-8'>
-      <div className='flex justify-end mb-4'>
-        <button onClick={handleOpen} className='bg-green-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-green-600 transition-all'>Add New</button>
+       <div className='flex justify-between mb-4'>
+        <div>
+               <h2>Services</h2>
+               <p>Total Active Services : {services.length} </p>
+        </div>
+        <button onClick={handleOpen} className='bg-green-500 h-10 text-white px-4 py-2 rounded-md shadow-sm hover:bg-green-600 transition-all'>Add New</button>
       </div>
       <div style={{ height: 400, width: '100%' }}>
         <DataGrid

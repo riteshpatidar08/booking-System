@@ -27,11 +27,19 @@ exports.login = async(req,res,next) => {
      const user = await User.find({email}) ;
 console.log(user)
 //check if user exist
+
+if(user.isActive === false){
+  const error = new Error('Your account is deactivated , Please create a new account')
+  error.statusCode =400;
+  throw error ;
+}
      if(!user){
         const error = new Error('user is not registered , Please login');
         error.statusCode = 400;
         throw error
      }
+
+
 
      const MatchPassword = await bcrypt.compare(password, user[0].password) ;
 
@@ -58,7 +66,7 @@ console.log(user)
 
 exports.getUsers = async(req,res,next)=>{
   try {
-    const users = await User.find()
+    const users = await User.find().select('-password');
    
 
    if(!users){
@@ -88,6 +96,28 @@ exports.deactivateUser = async(req,res,next) => {
    }
   user.isActive = false ;
   console.log(user)
+  await user.save()
+res.status(200).json({
+  user
+})
+  }catch(error){
+
+  }
+}
+
+exports.activateUser = async(req,res,next) => {
+  try{
+    const {id} = req.params ;
+    const user = await User.findById(id) ;
+    console.log(user)
+     if(!user){
+       const error = new Error('Users not found');
+       error.statusCode = 404 ;
+       throw error
+   }
+  user.isActive = true ;
+  console.log(user)
+  await user.save()
 res.status(200).json({
   user
 })
