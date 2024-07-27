@@ -7,6 +7,7 @@ import PrivateRoute from './components/PrivateRoute';
 import Homepage from './components/Homepage';
 import Services from './components/Dashboard/Services';
 import Users from './components/Dashboard/Users'
+import Statistics from './components/Dashboard/Statistics';
 function App() {
   return (
     <div>
@@ -18,7 +19,7 @@ function App() {
           <Route element={<PrivateRoute allowedRole={['admin']} />}>
            
             <Route path="/dashboard" element={<DashBoard />}>
-               <Route index element={<Services/>}/>
+               <Route index element={<Statistics/>}/>
                <Route path='services' element={<Services/>}></Route>
                <Route path='users' element={<Users/>}/>
               </Route>           
