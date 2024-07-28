@@ -2,21 +2,22 @@ const Booking = require('../model/booking');
 
 exports.createBooking = async (req, res, next) => {
   try {
-    const { name, date, time } = req.body;
+    const { name, date, time, serviceId } = req.body;
 
     const booking = await Booking.create({
       userId: req.user.id,
+      serviceId,
       name,
       date,
       time,
     });
     if (!booking) {
-      const error = new Error('failed to create booking');
+      const error = new Error('Failed to create booking');
       error.statusCode = 400;
       throw error;
     }
     res.status(201).json({
-      message: 'success',
+      message: 'Success',
       booking,
     });
   } catch (error) {
@@ -26,7 +27,7 @@ exports.createBooking = async (req, res, next) => {
 
 exports.getBooking = async (req, res, next) => {
   try {
-    const booking = await Booking.find().populate('userId');
+    const booking = await Booking.find().populate('userId').populate('serviceId');
 
     res.status(200).json({
       booking,
