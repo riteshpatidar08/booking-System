@@ -1,5 +1,4 @@
 const Booking = require('../model/booking');
-
 exports.createBooking = async (req, res, next) => {
   try {
     const { name, date, time, serviceId } = req.body;
@@ -16,6 +15,10 @@ exports.createBooking = async (req, res, next) => {
       error.statusCode = 400;
       throw error;
     }
+
+    req.io.emit('newbooking', booking) ;
+   
+
     res.status(201).json({
       message: 'Success',
       booking,

@@ -11,7 +11,7 @@ import Statistics from './components/Dashboard/Statistics';
 function App() {
   return (
     <div>
-      <Toaster richColors />
+      <Toaster richColors  position="top-center"/>
      
         <Routes>
           <Route path="/login" element={<Login />} />
