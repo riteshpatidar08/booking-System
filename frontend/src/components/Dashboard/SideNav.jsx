@@ -14,6 +14,7 @@ function SideNav() {
           <NavLink to="/dashboard" text="Dashboard" icon={<LuUsers/>}/>
           <NavLink to="/dashboard/services" text="Services" icon={<RiAlignItemLeftLine/>} />
         <NavLink to="/dashboard/users" text="Users" icon={<LuUsers/>}/>
+        <NavLink to="/dashboard/bookings" text="Bookings" icon={<LuUsers/>}/>
       
        
       

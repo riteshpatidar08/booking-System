@@ -9,4 +9,4 @@ router.post('/create_booking', protect, bookingController.createBooking)
 router.get('/bookings', protect , admin , bookingController.getBooking)
 
 
-module.exports = router
+module.exports = router ;

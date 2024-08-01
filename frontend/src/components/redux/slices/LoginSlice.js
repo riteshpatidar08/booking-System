@@ -7,7 +7,8 @@ const initialState = {
   token: null,
   role: null,
   error: null,
-  name : null
+  name : null ,
+  
 };
 
 export const login = createAsyncThunk(
@@ -19,7 +20,7 @@ export const login = createAsyncThunk(
       });
       return data;
     } catch (error) {
-      rejectWithValue(error);
+     return rejectWithValue(error);
     }
   }
 );
@@ -62,12 +63,12 @@ const loginSlice = createSlice({
         localStorage.setItem('token', token);
         localStorage.setItem('role', role);
         toast.success('Login Successfull');
+  
+      }).addCase(login.rejected , (state,action)=>{
+        console.log(action.payload.response.data.error)
+       toast.error(action.payload.response.data.error)
+        state.loading = false
       })
-      .addCase(login.rejected, (state, action) => {
-        state.error = action.payload;
-        toast.error('Login Failed');
-        state.loading = false;
-      });
   },
 });
 

@@ -14,7 +14,7 @@ const Login = () => {
   console.log(role,token)
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+  console.log(loading)
 
   useEffect(() => {
    

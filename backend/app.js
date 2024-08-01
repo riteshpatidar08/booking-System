@@ -4,12 +4,12 @@ require('dotenv').config() ;
 const dbConnect = require('./config/db')
 const morgan = require('morgan')
 const cors = require('cors')
-
+app.use(cors())
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
 app.use(express.json())
-app.use(cors())
+
 
 io.on('connection', () => { 
     console.log('user is connected')

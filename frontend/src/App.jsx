@@ -8,6 +8,7 @@ import Homepage from './components/Homepage';
 import Services from './components/Dashboard/Services';
 import Users from './components/Dashboard/Users'
 import Statistics from './components/Dashboard/Statistics';
+import Bookings from './components/Dashboard/Bookings';
 function App() {
   return (
     <div>
@@ -22,6 +23,7 @@ function App() {
                <Route index element={<Statistics/>}/>
                <Route path='services' element={<Services/>}></Route>
                <Route path='users' element={<Users/>}/>
+               <Route path='bookings' element={<Bookings/>} />
               </Route>           
           </Route>
 

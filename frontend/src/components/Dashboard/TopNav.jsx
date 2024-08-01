@@ -3,7 +3,7 @@ import { RiLogoutCircleLine } from "react-icons/ri";
 import { logout } from "../redux/slices/LoginSlice";
 import { useNavigate } from "react-router-dom";
 import { io } from 'socket.io-client';
-import {useEffect} from 'react'
+import {useEffect , useState} from 'react'
 import { toast } from "sonner";
 import { GoBell } from "react-icons/go";
 const socket = io('http://localhost:8000');
@@ -16,14 +16,19 @@ const TopNav = () => {
     useEffect(()=>{
         //on method is used to listen the event emmited in the backend
         socket.on('newbooking', (booking)=>{
-          
+         
             toast.info(`New booking done by ${booking.name} at ${booking.time}`)
             console.log(booking)
         })
 
 
+        return ()=>{
+            socket.off(()=>{
+                console.log('hello')
+            })
+        }
     },[])
-    // const {name} = useSelector((state)=> state.login) ;
+    // const {nam)e} = useSelector((state)=> state.login) ;
 const dispatch = useDispatch();
 const navigate = useNavigate()
     const name = localStorage.getItem('name');

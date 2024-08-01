@@ -24,21 +24,26 @@ exports.login = async(req,res,next) => {
   try {
     console.log(req.body)
      const {email , password} = req.body 
+     console.log(password)
      const user = await User.find({email}) ;
-console.log(user)
+console.log("login",user)
 //check if user exist
 
-if(user.isActive === false){
-  const error = new Error('Your account is deactivated , Please create a new account')
-  error.statusCode =400;
-  throw error ;
-}
      if(!user){
         const error = new Error('user is not registered , Please login');
         error.statusCode = 400;
         throw error
      }
 
+
+console.log("user" , user[0].isActive)
+console.log(!user.isActive)
+
+if(user[0].isActive === false){
+  const error = new Error('Your account is deactivated , Please create a new account')
+  error.statusCode =400;
+  throw error ;
+}
 
 
      const MatchPassword = await bcrypt.compare(password, user[0].password) ;

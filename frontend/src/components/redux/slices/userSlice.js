@@ -5,7 +5,8 @@ import axios from 'axios';
 const initialState = {
   users: [],
   loading: false,
-  error: null
+  error: null ,
+
 };
 
 
@@ -42,7 +43,7 @@ rejectWithValue(error)
   }
 })
 
-export const activateUser = createAsyncThunk('/users/deactivateUser', async(id, {rejectWithValue})=>{
+export const activateUser = createAsyncThunk('/users/activateUser', async(id, {rejectWithValue})=>{
   try{
   const token = localStorage.getItem('token');
   console.log(token)
@@ -72,6 +73,32 @@ const usersSlice = createSlice({
         state.users = action.payload;
       })
       .addCase(fetchUsers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+
+      }).addCase(DeactivateUser.pending, (state, action) => {
+        console.log(action.meta)
+        state.loading = true;
+      
+        
+        state.error = null;
+      }).addCase(DeactivateUser.fulfilled, (state, action) => {
+        state.loading = false;
+         
+        // state.users = action.payload;
+      }).addCase(DeactivateUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+  
+      }).addCase(activateUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(activateUser.fulfilled, (state, action) => {
+        state.loading = false;
+        // state.users = action.payload;
+      })
+      .addCase(activateUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
